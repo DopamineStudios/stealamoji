@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir \
     aiohttp \
     dotenv \
     discord-beacon \
-    libsql \
+    libsql
 
 
 COPY . .
