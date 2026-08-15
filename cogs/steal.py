@@ -235,8 +235,8 @@ class EmojiStealer(commands.Cog):
                 remaining_str = ""
             view = discord.ui.LayoutView()
             container = discord.ui.Container()
-            container.add_item(discord.ui.TextDisplay("# <:robber:1537842844340064287> Emoji Heist Successful"))
-            container.add_item(discord.ui.TextDisplay(f"### Successfully stole {new_emoji} as `:{new_emoji.name}:`\n{remaining_str}"))
+            container.add_item(discord.ui.TextDisplay("## <:robber:1537842844340064287> Emoji Heist Successful"))
+            container.add_item(discord.ui.TextDisplay(f"Successfully stolen {new_emoji} as `:{new_emoji.name}:`.\n{remaining_str}"))
             view.add_item(container)
             await interaction.followup.send(
                 view=view
