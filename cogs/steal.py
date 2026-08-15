@@ -1,4 +1,5 @@
 import datetime
+import random
 import re
 import asyncio
 import aiohttp
@@ -236,7 +237,19 @@ class EmojiStealer(commands.Cog):
             view = discord.ui.LayoutView()
             container = discord.ui.Container()
             container.add_item(discord.ui.TextDisplay("## <:robber:1537842844340064287> Emoji Heist Successful"))
-            container.add_item(discord.ui.TextDisplay(f"Successfully stolen {new_emoji} as `:{new_emoji.name}:`.\n{remaining_str}"))
+            container.add_item(discord.ui.TextDisplay(f"Successfully stole {new_emoji} as `:{new_emoji.name}:`\n{remaining_str}"))
+            invite_btn = discord.ui.Button(label="Invite", style=discord.ButtonStyle.link, url="https://stealamoji.dopaminestudios.in/invite")
+            website_btn = discord.ui.Button(label="Website", style=discord.ButtonStyle.link, url="https://stealamoji.dopaminestudios.in/")
+            num = random.randint(1, 3)
+            if num == 2:
+                row = discord.ui.ActionRow()
+                row.add_item(invite_btn)
+                container.add_item(row)
+            elif num == 3:
+                row = discord.ui.ActionRow()
+                row.add_item(website_btn)
+                container.add_item(row)
+
             view.add_item(container)
             await interaction.followup.send(
                 view=view
