@@ -10,8 +10,7 @@ RUN pip install --no-cache-dir \
     discord.py \
     aiohttp \
     dotenv \
-    discord-beacon \
-    libsql
+    discord-beacon
 
 
 COPY . .
