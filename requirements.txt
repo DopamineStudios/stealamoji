@@ -1,0 +1,5 @@
+discord-py
+aiohttp
+dotenv
+discord-beacon
+libsql
