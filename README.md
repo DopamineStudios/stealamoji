@@ -1,6 +1,6 @@
 # Steal-a-moji
 
-Twilight is a free, open-source Discord bot for stealing emojis from any server on Discord. It utilises the Discord API PartialEmoji feature which allows you to fetch ANY emoji from anywhere as long as you have its emoji ID.
+Steal-a-moji is a free, open-source Discord bot for stealing emojis from any server on Discord. It utilises the Discord API PartialEmoji feature which allows you to fetch ANY emoji from anywhere as long as you have its emoji ID.
 
 A **Dopamine Studios** Project.
 
