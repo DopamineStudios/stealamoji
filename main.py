@@ -54,16 +54,7 @@ handler.setFormatter(formatter)
 
 intents = discord.Intents.default()
 intents.members = True
-
-PROXY_PASSWORD = urllib.parse.quote_plus(PROXY_PASSWORD)
-proxy_url = f"http://{PROXY_USERNAME}:{PROXY_PASSWORD}@198.23.243.226:6361"
-async def on_bot_ready():
-    activity_name = f"😝 /steal | {len(bot.guilds)} Servers"
-
-    await bot.change_presence(
-        activity=discord.CustomActivity(name=activity_name)
-    )
-bot = BeaconAutoShardedBot(intents=intents, minimal_caching=True, accent_colour=discord.Colour(0xf7c22b), on_beacon_ready_callback=on_bot_ready)
+bot = BeaconAutoShardedBot(intents=intents, minimal_caching=True, accent_colour=discord.Colour(0xf7c22b))
 
 if __name__ == "__main__":
     async def main_async():
