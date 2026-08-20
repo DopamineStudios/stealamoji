@@ -54,7 +54,7 @@ handler.setFormatter(formatter)
 
 intents = discord.Intents.default()
 intents.members = True
-bot = BeaconAutoShardedBot(intents=intents, minimal_caching=True, accent_colour=discord.Colour(0xf7c22b))
+bot = BeaconAutoShardedBot(intents=intents, minimal_caching=True, accent_colour=discord.Colour(0xf7c22b), bot_logger=logger)
 
 if __name__ == "__main__":
     async def main_async():
