@@ -58,7 +58,7 @@ class EmojiStealer(commands.Cog):
 
             emoji_name = re.sub(r"[^a-zA-Z0-9_]", "", emoji_name)[:32]
             if len(emoji_name) < 2:
-                emoji_name = f"emoji_{emoji_id}"
+                emoji_name = f"stealamoji_{emoji_id}"
 
             urls_to_try = []
             if partial_emoji:
@@ -72,11 +72,13 @@ class EmojiStealer(commands.Cog):
             image_bytes = None
             async with aiohttp.ClientSession() as session:
                 for url in urls_to_try:
-                    self.bot.logger.info(f"Trying {url}")
+                    self.bot.logger.info(f"Trying: {url} URL")
                     async with session.get(url) as resp:
                         if resp.status == 200:
                             image_bytes = await resp.read()
                             break
+                        else:
+                            continue
 
             if not image_bytes:
                 await interaction.followup.send(
