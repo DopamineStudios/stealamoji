@@ -39,7 +39,7 @@ class EmojiStealer(commands.Cog):
                 if partial_emoji and partial_emoji.is_custom_emoji():
                     emoji_id = partial_emoji.id
                     if not emoji_name:
-                        emoji_name = partial_emoji.name
+                        emoji_name = partial_emoji.name or f"stealamoji_{emoji_id}"
             except Exception:
                 pass
 
@@ -47,7 +47,7 @@ class EmojiStealer(commands.Cog):
                 cleaned_input = emoji.strip()
                 if cleaned_input.isdigit():
                     emoji_id = int(cleaned_input)
-                    print(emoji_id)
+                    self.bot.logger.info(f"{emoji_id}")
                     if not emoji_name:
                         emoji_name = f"stealamoji_{emoji_id}"
                 else:
@@ -72,6 +72,7 @@ class EmojiStealer(commands.Cog):
             image_bytes = None
             async with aiohttp.ClientSession() as session:
                 for url in urls_to_try:
+                    self.bot.logger.info(f"Trying {url}")
                     async with session.get(url) as resp:
                         if resp.status == 200:
                             image_bytes = await resp.read()
