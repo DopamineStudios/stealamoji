@@ -64,8 +64,8 @@ class EmojiStealer(commands.Cog):
                 urls_to_try.append(str(partial_emoji.url))
             else:
                 urls_to_try = [
-                    f"https://cdn.discordapp.com/emojis/{emoji_id}.gif",
-                    f"https://cdn.discordapp.com/emojis/{emoji_id}.png",
+                    f"https://cdn.discordapp.com/emojis/{str(emoji_id)}.gif",
+                    f"https://cdn.discordapp.com/emojis/{str(emoji_id)}.png",
                 ]
 
             image_bytes = None
