@@ -26,99 +26,102 @@ class EmojiStealer(commands.Cog):
             emoji: str,
             name: str | None = None,
     ):
-        await interaction.response.defer(thinking=True)
-
-        partial_emoji = None
-        emoji_id = None
-        emoji_name = name
-
         try:
-            partial_emoji = discord.PartialEmoji.from_str(emoji)
-            if partial_emoji and partial_emoji.is_custom_emoji():
-                emoji_id = partial_emoji.id
-                if not emoji_name:
-                    emoji_name = partial_emoji.name
-        except Exception:
-            pass
+            await interaction.response.defer(thinking=True)
 
-        if not emoji_id:
-            cleaned_input = emoji.strip()
-            if cleaned_input.isdigit():
-                emoji_id = int(cleaned_input)
-                if not emoji_name:
-                    emoji_name = f"steal-a-moji_{emoji_id}"
+            partial_emoji = None
+            emoji_id = None
+            emoji_name = name
+
+            try:
+                partial_emoji = discord.PartialEmoji.from_str(emoji)
+                if partial_emoji and partial_emoji.is_custom_emoji():
+                    emoji_id = partial_emoji.id
+                    if not emoji_name:
+                        emoji_name = partial_emoji.name
+            except Exception:
+                pass
+
+            if not emoji_id:
+                cleaned_input = emoji.strip()
+                if cleaned_input.isdigit():
+                    emoji_id = int(cleaned_input)
+                    if not emoji_name:
+                        emoji_name = f"steal-a-moji_{emoji_id}"
+                else:
+                    await interaction.followup.send(
+                        "Invalid input. Please provide either a valid custom emoji or a numerical emoji ID."
+                    )
+                    return
+
+            emoji_name = re.sub(r"[^a-zA-Z0-9_]", "", emoji_name)[:32]
+            if len(emoji_name) < 2:
+                emoji_name = f"emoji_{emoji_id}"
+
+            urls_to_try = []
+            if partial_emoji:
+                urls_to_try.append(str(partial_emoji.url))
             else:
+                urls_to_try = [
+                    f"https://cdn.discordapp.com/emojis/{emoji_id}.gif",
+                    f"https://cdn.discordapp.com/emojis/{emoji_id}.png",
+                ]
+
+            image_bytes = None
+            async with aiohttp.ClientSession() as session:
+                for url in urls_to_try:
+                    async with session.get(url) as resp:
+                        if resp.status == 200:
+                            image_bytes = await resp.read()
+                            break
+
+            if not image_bytes:
                 await interaction.followup.send(
-                    "Invalid input. Please provide either a valid custom emoji or a numerical emoji ID."
+                    "Could not download the emoji image. Please verify the Emoji ID is valid."
                 )
                 return
 
-        emoji_name = re.sub(r"[^a-zA-Z0-9_]", "", emoji_name)[:32]
-        if len(emoji_name) < 2:
-            emoji_name = f"emoji_{emoji_id}"
-
-        urls_to_try = []
-        if partial_emoji:
-            urls_to_try.append(str(partial_emoji.url))
-        else:
-            urls_to_try = [
-                f"https://cdn.discordapp.com/emojis/{emoji_id}.gif",
-                f"https://cdn.discordapp.com/emojis/{emoji_id}.png",
-            ]
-
-        image_bytes = None
-        async with aiohttp.ClientSession() as session:
-            for url in urls_to_try:
-                async with session.get(url) as resp:
-                    if resp.status == 200:
-                        image_bytes = await resp.read()
-                        break
-
-        if not image_bytes:
-            await interaction.followup.send(
-                "Could not download the emoji image. Please verify the Emoji ID is valid."
-            )
-            return
-
-        try:
-            new_emoji = await interaction.guild.create_custom_emoji(
-                name=emoji_name,
-                image=image_bytes,
-                reason=f"Stolen by {interaction.user.display_name} (ID: {interaction.user.id}) via /steal",
-            )
-
-            view = discord.ui.LayoutView()
-            container = discord.ui.Container()
-            container.add_item(discord.ui.TextDisplay("## <:robber:1537842844340064287> Emoji Heist Successful"))
-            container.add_item(discord.ui.TextDisplay(f"Successfully stole {new_emoji} as `:{new_emoji.name}:`"))
-            invite_btn = discord.ui.Button(label="Invite", style=discord.ButtonStyle.link,
-                                           url="https://stealamoji.dopaminestudios.in/invite")
-            website_btn = discord.ui.Button(label="Website", style=discord.ButtonStyle.link,
-                                            url="https://stealamoji.dopaminestudios.in/")
-            num = random.randint(1, 3)
-            if num == 2:
-                row = discord.ui.ActionRow()
-                row.add_item(invite_btn)
-                container.add_item(row)
-            elif num == 3:
-                row = discord.ui.ActionRow()
-                row.add_item(website_btn)
-                container.add_item(row)
-
-            view.add_item(container)
-            await interaction.followup.send(view=view)
-
-        except discord.HTTPException as e:
-            if e.code == 30008:
-                is_animated = partial_emoji.animated if partial_emoji else False
-                emoji_type = "animated" if is_animated else "static"
-                await interaction.followup.send(
-                    f"Failed to add emoji: This server has reached its limit for {emoji_type} emojis!"
+            try:
+                new_emoji = await interaction.guild.create_custom_emoji(
+                    name=emoji_name,
+                    image=image_bytes,
+                    reason=f"Stolen by {interaction.user.display_name} (ID: {interaction.user.id}) via /steal",
                 )
-            else:
-                await interaction.followup.send(
-                    f"Failed to add emoji to server: `{e.text}`"
-                )
+
+                view = discord.ui.LayoutView()
+                container = discord.ui.Container()
+                container.add_item(discord.ui.TextDisplay("## <:robber:1537842844340064287> Emoji Heist Successful"))
+                container.add_item(discord.ui.TextDisplay(f"Successfully stole {new_emoji} as `:{new_emoji.name}:`"))
+                invite_btn = discord.ui.Button(label="Invite", style=discord.ButtonStyle.link,
+                                               url="https://stealamoji.dopaminestudios.in/invite")
+                website_btn = discord.ui.Button(label="Website", style=discord.ButtonStyle.link,
+                                                url="https://stealamoji.dopaminestudios.in/")
+                num = random.randint(1, 3)
+                if num == 2:
+                    row = discord.ui.ActionRow()
+                    row.add_item(invite_btn)
+                    container.add_item(row)
+                elif num == 3:
+                    row = discord.ui.ActionRow()
+                    row.add_item(website_btn)
+                    container.add_item(row)
+
+                view.add_item(container)
+                await interaction.followup.send(view=view)
+
+            except discord.HTTPException as e:
+                if e.code == 30008:
+                    is_animated = partial_emoji.animated if partial_emoji else False
+                    emoji_type = "animated" if is_animated else "static"
+                    await interaction.followup.send(
+                        f"Failed to add emoji: This server has reached its limit for {emoji_type} emojis!"
+                    )
+                else:
+                    await interaction.followup.send(
+                        f"Failed to add emoji to server: `{e.text}`"
+                    )
+        except Exception as e:
+            self.bot.logger.critical("ERROR in /steal command\n", e)
 
 
 async def setup(bot: commands.Bot):
