@@ -47,8 +47,9 @@ class EmojiStealer(commands.Cog):
                 cleaned_input = emoji.strip()
                 if cleaned_input.isdigit():
                     emoji_id = int(cleaned_input)
+                    print(emoji_id)
                     if not emoji_name:
-                        emoji_name = f"steal-a-moji_{emoji_id}"
+                        emoji_name = f"stealamoji_{emoji_id}"
                 else:
                     await interaction.followup.send(
                         "Invalid input. Please provide either a valid custom emoji or a numerical emoji ID."
@@ -122,7 +123,7 @@ class EmojiStealer(commands.Cog):
                         f"Failed to add emoji to server: `{e.text}`"
                     )
         except Exception as e:
-            self.bot.logger.critical("ERROR in /steal command\n", e, traceback.format_exc())
+            self.bot.logger.critical(f"ERROR in /steal command\n{e}\n{traceback.format_exc()}")
 
 
 async def setup(bot: commands.Bot):
