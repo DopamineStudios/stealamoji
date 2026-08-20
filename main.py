@@ -52,9 +52,7 @@ formatter = logging.Formatter(log_format, datefmt=date_format)
 
 handler.setFormatter(formatter)
 
-intents = discord.Intents.default()
-intents.members = True
-bot = BeaconAutoShardedBot(intents=intents, minimal_caching=True, accent_colour=discord.Colour(0xf7c22b), bot_logger=logger)
+bot = BeaconAutoShardedBot(minimal_caching=True, accent_colour=discord.Colour(0xf7c22b), bot_logger=logger, http_timeout=10.0)
 
 if __name__ == "__main__":
     async def main_async():
