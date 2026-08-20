@@ -5,6 +5,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from beacon import beacon_commands, preconditions
+import traceback
 
 
 class EmojiStealer(commands.Cog):
@@ -121,7 +122,7 @@ class EmojiStealer(commands.Cog):
                         f"Failed to add emoji to server: `{e.text}`"
                     )
         except Exception as e:
-            self.bot.logger.critical("ERROR in /steal command\n", e)
+            self.bot.logger.critical("ERROR in /steal command\n", e, traceback.format_exc())
 
 
 async def setup(bot: commands.Bot):
