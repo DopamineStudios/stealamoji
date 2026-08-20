@@ -35,8 +35,9 @@ class EmojiStealer(commands.Cog):
             emoji_name = name
 
             try:
-                partial_emoji = discord.PartialEmoji.from_str(emoji)
-                if partial_emoji and partial_emoji.is_custom_emoji():
+                parsed = discord.PartialEmoji.from_str(emoji)
+                if parsed and parsed.is_custom_emoji():
+                    partial_emoji = parsed
                     emoji_id = partial_emoji.id
                     if not emoji_name:
                         emoji_name = partial_emoji.name or f"stealamoji_{emoji_id}"
@@ -65,8 +66,8 @@ class EmojiStealer(commands.Cog):
                 urls_to_try.append(str(partial_emoji.url))
             else:
                 urls_to_try = [
-                    f"https://cdn.discordapp.com/emojis/{str(emoji_id)}.gif",
-                    f"https://cdn.discordapp.com/emojis/{str(emoji_id)}.png",
+                    f"https://cdn.discordapp.com/emojis/{emoji_id}.gif",
+                    f"https://cdn.discordapp.com/emojis/{emoji_id}.png",
                 ]
 
             image_bytes = None
