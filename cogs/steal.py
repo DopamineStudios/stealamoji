@@ -87,10 +87,14 @@ class EmojiStealer(commands.Cog):
                 return
 
             try:
-                new_emoji = await interaction.guild.create_custom_emoji(
-                    name=emoji_name,
-                    image=image_bytes,
-                    reason=f"Stolen by {interaction.user.display_name} (ID: {interaction.user.id}) via /steal",
+                # Set a short timeout so the bot doesn't hang for 576 seconds waiting for discord.py's internal retry
+                new_emoji = await asyncio.wait_for(
+                    interaction.guild.create_custom_emoji(
+                        name=emoji_name,
+                        image=image_bytes,
+                        reason=f"Stolen by {interaction.user.display_name} (ID: {interaction.user.id}) via /steal",
+                    ),
+                    timeout=5.0
                 )
 
                 view = discord.ui.LayoutView()
