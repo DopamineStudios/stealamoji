@@ -1,11 +1,12 @@
+import asyncio
 import random
 import re
+import traceback
 import aiohttp
 import discord
 from discord import app_commands
 from discord.ext import commands
 from beacon import beacon_commands, preconditions
-import traceback
 
 
 class EmojiStealer(commands.Cog):
@@ -113,14 +114,9 @@ class EmojiStealer(commands.Cog):
                 view.add_item(container)
                 await interaction.followup.send(view=view)
 
-            except discord.RateLimited as e:
-                minutes = int(e.retry_after // 60)
-                seconds = int(e.retry_after % 60)
-                time_str = f"{minutes}m {seconds}s" if minutes > 0 else f"{seconds}s"
-
+            except asyncio.TimeoutError:
                 await interaction.followup.send(
-                    f"⚠️ **Rate Limit Exceeded:** Discord is rate-limiting emoji additions for this server.\n"
-                    f"Please try again in **{time_str}**."
+                    "⚠️ **Rate Limit Exceeded:** Discord is currently rate-limiting emoji additions for this server. Please try again later."
                 )
 
             except discord.HTTPException as e:
