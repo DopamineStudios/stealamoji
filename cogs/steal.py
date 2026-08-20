@@ -48,7 +48,6 @@ class EmojiStealer(commands.Cog):
                 cleaned_input = emoji.strip()
                 if cleaned_input.isdigit():
                     emoji_id = int(cleaned_input)
-                    self.bot.logger.info(f"{emoji_id}")
                     if not emoji_name:
                         emoji_name = f"stealamoji_{emoji_id}"
                 else:
@@ -73,7 +72,6 @@ class EmojiStealer(commands.Cog):
             image_bytes = None
             async with aiohttp.ClientSession() as session:
                 for url in urls_to_try:
-                    self.bot.logger.info(f"Trying: {url} URL")
                     async with session.get(url) as resp:
                         if resp.status == 200:
                             image_bytes = await resp.read()
@@ -115,8 +113,27 @@ class EmojiStealer(commands.Cog):
                 view.add_item(container)
                 await interaction.followup.send(view=view)
 
+            except discord.RateLimited as e:
+                minutes = int(e.retry_after // 60)
+                seconds = int(e.retry_after % 60)
+                time_str = f"{minutes}m {seconds}s" if minutes > 0 else f"{seconds}s"
+
+                await interaction.followup.send(
+                    f"⚠️ **Rate Limit Exceeded:** Discord is rate-limiting emoji additions for this server.\n"
+                    f"Please try again in **{time_str}**."
+                )
+
             except discord.HTTPException as e:
-                if e.code == 30008:
+                if e.status == 429:
+                    retry_after = getattr(e, "retry_after", 0)
+                    minutes = int(retry_after // 60)
+                    seconds = int(retry_after % 60)
+                    time_str = f"{minutes}m {seconds}s" if minutes > 0 else f"{seconds}s"
+                    await interaction.followup.send(
+                        f"⚠️ **Rate Limit Exceeded:** Discord is rate-limiting emoji additions for this server.\n"
+                        f"Please try again in **{time_str}**."
+                    )
+                elif e.code == 30008:
                     is_animated = partial_emoji.animated if partial_emoji else False
                     emoji_type = "animated" if is_animated else "static"
                     await interaction.followup.send(
