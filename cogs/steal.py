@@ -116,7 +116,7 @@ class EmojiStealer(commands.Cog):
 
             except asyncio.TimeoutError:
                 await interaction.followup.send(
-                    "⚠️ **Rate Limit Exceeded:** Discord is currently rate-limiting emoji additions for this server. Please try again later."
+                    f"⚠️ **Rate Limit Exceeded:** Discord is currently rate-limiting emoji additions for this server. This rate limit applies to all bots and users in the server, not just Steal a 'Moji. Please try again later."
                 )
 
             except discord.HTTPException as e:
