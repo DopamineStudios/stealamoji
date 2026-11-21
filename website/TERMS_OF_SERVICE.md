@@ -1,20 +1,20 @@
-# Steal-a-moji Discord Bot - Terms of Service
+# Steal a 'Moji Discord Bot - Terms of Service
 
 <sub>*Last updated: 15 August, 2026*</sub>
 
 ## 1. Agreement
 
-By inviting Steal-a-moji (also known as Steal-a-moji) to a Discord server or otherwise using Steal-a-moji (the **“Service”**), you agree to these Terms of Service (**“Terms”**). If you do not agree, do not use the Service.
+By inviting Steal a 'Moji (also known as Steal a 'Moji) to a Discord server or otherwise using Steal a 'Moji (the **“Service”**), you agree to these Terms of Service (**“Terms”**). If you do not agree, do not use the Service.
 
-If you use Steal-a-moji on behalf of a Discord server, you represent that you have authority to bind that server and its administrators to these Terms.
+If you use Steal a 'Moji on behalf of a Discord server, you represent that you have authority to bind that server and its administrators to these Terms.
 
 These Terms work together with our [Privacy Policy](https://stealamoji.dopaminestudios.in/privacypolicy/).
 
 ---
 
-## 2. What Steal-a-moji Is
+## 2. What Steal a 'Moji Is
 
-Steal-a-moji is a free Discord utility bot operated by **Dopamine Studios**. Its primary feature is the `/steal` command, which downloads a custom Discord emoji you provide and uploads a copy to your server (subject to Discord’s limits and your server’s permissions).
+Steal a 'Moji is a free Discord utility bot operated by **Dopamine Studios**. Its primary feature is the `/steal` command, which downloads a custom Discord emoji you provide and uploads a copy to your server (subject to Discord’s limits and your server’s permissions).
 
 ---
 
@@ -26,15 +26,15 @@ You must comply with [Discord’s Terms of Service](https://discord.com/terms) a
 
 ## 4. The Service Is Provided “As Is”
 
-Steal-a-moji is provided **free of charge**, **“as is”** and **“as available”**, without warranties of any kind. We do not guarantee uninterrupted uptime, successful emoji transfers, or that Discord will always allow a given emoji to be added.
+Steal a 'Moji is provided **free of charge**, **“as is”** and **“as available”**, without warranties of any kind. We do not guarantee uninterrupted uptime, successful emoji transfers, or that Discord will always allow a given emoji to be added.
 
-**You use Steal-a-moji at your own risk.**
+**You use Steal a 'Moji at your own risk.**
 
 ---
 
 ## 5. Acceptable Use
 
-You agree not to use Steal-a-moji to:
+You agree not to use Steal a 'Moji to:
 
 1. Violate any applicable law or regulation;
 2. Violate Discord’s terms, policies, or developer policies;
@@ -49,19 +49,19 @@ Server members who run `/steal` must have Discord’s **Manage Emojis and Sticke
 
 ## 6. Third-Party Services
 
-Steal-a-moji depends on third parties, including **Discord** (messaging and emoji CDN) and our hosting provider(s). Your use of those services is also governed by their terms. We are not responsible for third-party outages or policy changes.
+Steal a 'Moji depends on third parties, including **Discord** (messaging and emoji CDN) and our hosting provider(s). Your use of those services is also governed by their terms. We are not responsible for third-party outages or policy changes.
 
 ---
 
 ## 7. Intellectual Property
 
-“Steal-a-moji,” “Stealamoji,” “Dopamine Studios,” related logos, and branding are owned by Dopamine Studios or its licensors. Custom emoji assets you steal remain subject to their original owners’ rights and Discord’s rules; Steal-a-moji does not grant you ownership of those assets.
+“Steal a 'Moji,” “Stealamoji,” “Dopamine Studios,” related logos, and branding are owned by Dopamine Studios or its licensors. Custom emoji assets you steal remain subject to their original owners’ rights and Discord’s rules; Steal a 'Moji does not grant you ownership of those assets.
 
 ---
 
 ## 8. Termination
 
-You may stop using Steal-a-moji at any time by removing it from your server.
+You may stop using Steal a 'Moji at any time by removing it from your server.
 
 We may suspend or discontinue the Service, or your access to it, at any time, with or without notice, including for abuse, maintenance, legal compliance, or project discontinuation.
 
@@ -69,7 +69,7 @@ We may suspend or discontinue the Service, or your access to it, at any time, wi
 
 ## 9. Limitation of Liability
 
-To the maximum extent permitted by law, Dopamine Studios and its operators will **not** be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of Steal-a-moji.
+To the maximum extent permitted by law, Dopamine Studios and its operators will **not** be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of Steal a 'Moji.
 
 Our **total liability** for any claim will not exceed **USD $0**, since the hosted Service is free.
 
@@ -83,7 +83,7 @@ We may update these Terms from time to time. When we do, we will update the “L
 
 ## 12. Contact
 
-**Dopamine Studios — Steal-a-moji**
+**Dopamine Studios — Steal a 'Moji**
 
 - Email: [hey@dopaminestudios.in](mailto:hey@dopaminestudios.in)
 - Website: [https://stealamoji.dopaminestudios.in/](https://stealamoji.dopaminestudios.in/)

@@ -1,18 +1,18 @@
-# Steal-a-moji Discord Bot - Privacy Policy
+# Steal a 'Moji Discord Bot - Privacy Policy
 
 <sub>Last updated: 22 November, 2026</sub>
 
 ## 1. Introduction
 
-Dopamine Studios (“**we**,” “**us**,” or “**our**”) operates **Steal-a-moji** (also known as Stealamoji), a free Discord bot for copying custom emojis into your server. This Privacy Policy explains what information we process when you use Stealamoji.
+Dopamine Studios (“**we**,” “**us**,” or “**our**”) operates **Steal a 'Moji** (also known as Stealamoji), a free Discord bot for copying custom emojis into your server. This Privacy Policy explains what information we process when you use Stealamoji.
 
-By using Steal-a-moji, you agree to this Privacy Policy. If you do not agree, please do not use the Service.
+By using Steal a 'Moji, you agree to this Privacy Policy. If you do not agree, please do not use the Service.
 
 ---
 
 ## 2. Information We Process
 
-Steal-a-moji is intentionally small. We process only what is needed to run `/steal` and related features:
+Steal a 'Moji is intentionally small. We process only what is needed to run `/steal` and related features:
 
 ### 2.1 From Discord
 
@@ -64,13 +64,13 @@ We may also disclose information if required by law or to protect safety and sec
 
 ## 6. Your Choices
 
-- Stop using the bot by removing Steal-a-moji from your server.
+- Stop using the bot by removing Steal a 'Moji from your server.
 
 ---
 
 ## 7. Children’s Privacy
 
-Steal-a-moji follows Discord’s age requirements and is not directed at children under 13 (or the higher age required where you live).
+Steal a 'Moji follows Discord’s age requirements and is not directed at children under 13 (or the higher age required where you live).
 
 ---
 
@@ -82,7 +82,7 @@ We may update this Privacy Policy from time to time. We will update the “Last 
 
 ## 9. Contact Us
 
-**Dopamine Studios — Steal-a-moji**
+**Dopamine Studios — Steal a 'Moji**
 
 - Email: [hey@dopaminestudios.in](mailto:hey@dopaminestudios.in)
 - Website: [https://stealamoji.dopaminestudios.in/](https://stealamoji.dopaminestudios.in/)

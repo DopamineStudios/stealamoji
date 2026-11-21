@@ -3,7 +3,7 @@ const navHTML = `
   <div class="container">
     <div class="logo">
       <img src="stealamoji.png" alt="Logo" class="logo-img">
-      STEAL-A-MOJI
+      STEAL A 'MOJI
     </div>
 
     <button class="menu-toggle" aria-label="Toggle menu">
