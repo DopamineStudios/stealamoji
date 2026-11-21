@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steal-a-moji - Terms of Service</title>
+  <link rel="icon" type="image/ico" href="favico.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="legal.css">
+  <meta name="theme-color" content="#f7c22b">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="legal-page">
+  <div class="bg-gradient"></div>
+  <div class="bg-stars" id="bg-stars"></div>
+  <div class="bg-noise"></div>
+
+  <div class="container">
+    <a href="index.html" class="legal-back">&larr; Back to Steal-a-moji</a>
+    <div id="content">Loading terms of service...</div>
+  </div>
+
+  <script>
+    fetch('./TERMS_OF_SERVICE.md')
+      .then(response => {
+        if (!response.ok) throw new Error('Terms Of Service not found');
+        return response.text();
+      })
+      .then(markdown => {
+        document.getElementById('content').innerHTML = marked.parse(markdown);
+      })
+      .catch(() => {
+        document.getElementById('content').innerHTML = '<h2>Error</h2><p>Could not load the terms of service.</p>';
+      });
+  </script>
+  <script src="the_robber_emoji_totally_existed.js"></script>
+  <script src="nav.js"></script>
+</body>
+</html>

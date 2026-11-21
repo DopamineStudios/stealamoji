@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steal-a-moji - Steal emojis from any Discord server</title>
+  <link rel="icon" type="image/ico" href="favico.ico">
+  <meta name="description" content="Steal-a-moji is a free Discord bot that steals custom emojis from any server with one command: /steal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#f7c22b">
+  <meta property="og:image" content="stealamoji.png">
+  <meta name="twitter:card" content="summary">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.2rem, 12vw, 8rem);
+      letter-spacing: 6px;
+      line-height: 0.9;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleGlow 3s ease infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      0% { filter: drop-shadow(0 0 20px rgba(247, 194, 43, 0.15)); }
+      100% { filter: drop-shadow(0 0 40px rgba(138, 106, 26, 0.3)); }
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #1a1408;
+      box-shadow: 0 4px 30px rgba(247, 194, 43, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 40px rgba(247, 194, 43, 0.55);
+    }
+
+    .btn-secondary {
+      background: var(--glass-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .features {
+      padding: 120px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .section-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .feature-showcase {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      text-align: center;
+    }
+
+    .steal-box {
+      width: 100%;
+      max-width: 650px;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(247, 194, 43, 0.12), rgba(26, 20, 8, 0.65));
+      border: 1px solid rgba(247, 194, 43, 0.35);
+      box-shadow: 0 20px 50px rgba(247, 194, 43, 0.18);
+      padding: 48px 32px;
+      position: relative;
+      overflow: hidden;
+      animation: stealPulse 4s ease-in-out infinite;
+    }
+
+    .steal-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(247, 194, 43, 0.18), transparent 55%);
+      pointer-events: none;
+    }
+
+    @keyframes stealPulse {
+      0%, 100% { box-shadow: 0 20px 50px rgba(247, 194, 43, 0.18); }
+      50% { box-shadow: 0 24px 60px rgba(247, 194, 43, 0.32); }
+    }
+
+    .steal-command {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 14vw, 7rem);
+      letter-spacing: 6px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-primary-light), var(--accent-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+    }
+
+    .steal-caption {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    .steal-caption span {
+      color: var(--accent-primary-light);
+    }
+
+    .stats {
+      padding: 80px 0;
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 48px;
+      text-align: center;
+    }
+
+    .stat-item h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-item p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-top: 8px;
+    }
+
+    .cta {
+      padding: 120px 0;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(247, 194, 43, 0.2), rgba(138, 106, 26, 0.25));
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      padding: 80px 40px;
+      backdrop-filter: blur(20px);
+    }
+
+    .cta h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 32px;
+    }
+
+    footer {
+      padding: 80px 0 40px;
+      background: rgba(14, 13, 20, 0.5);
+      border-top: 1px solid var(--glass-border);
+      margin-top: 60px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+      text-align: left;
+    }
+
+    .footer-brand p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 300px;
+    }
+
+    .footer-column h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-primary-light);
+    }
+
+    .footer-bottom {
+      padding-top: 40px;
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .logo-img {
+      height: 1.2em;
+      width: auto;
+      position: relative;
+      top: -2px;
+      margin-right: 12px;
+      border-radius: 8px;
+    }
+
+    h1 .logo-img {
+      height: 0.8em;
+      top: -8px;
+      margin-right: 20px;
+      border-radius: 20px;
+    }
+
+    .logo, h1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { letter-spacing: 3px; }
+      .section-header h2 { font-size: 2.5rem; }
+      h1 .logo-img { border-radius: 14px; margin-right: 12px; }
+      .steal-box { min-height: 200px; padding: 36px 24px; }
+      .steal-caption { font-size: 1.15rem; }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 32px;
+      }
+      .footer-brand p { margin: 0 auto; }
+      .footer-bottom { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body id="top">
+<div class="bg-gradient"></div>
+<div class="bg-stars" id="bg-stars"></div>
+<div class="bg-noise"></div>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>
+      <img src="stealamoji.png" alt="Logo" class="logo-img">
+      STEAL-A-MOJI
+    </h1>
+    <p>One command. Any custom emoji. Steal it and add it straight to your own server.</p>
+    <div class="hero-buttons">
+      <a href="invite.html" class="btn btn-primary">Get Started with Steal-a-moji</a>
+      <a href="https://discord.gg/xT4RVAADeU" class="btn btn-secondary" target="_blank" rel="noopener">Support Server</a>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2>HOW IT WORKS</h2>
+      <p>No menus. No dashboards. Just one slash command.</p>
+    </div>
+
+    <div class="feature-showcase fade-in">
+      <div class="steal-box">
+        <span class="steal-command">/steal</span>
+      </div>
+      <p class="steal-caption">That's it. Steal emojis from <span>ANY</span> server on Discord.</p>
+    </div>
+  </div>
+</section>
+
+<section class="stats" id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <h3>100%</h3>
+        <p>Free Forever</p>
+      </div>
+      <div class="stat-item fade-in">
+        <h3>UNLIMITED</h3>
+        <p>Steals for Free</p>
+      </div>
+      <div class="stat-item fade-in">
+        <h3>ANY</h3>
+        <p>Custom Emoji on Discord</p>
+      </div>
+      <div class="stat-item fade-in">
+        <h3>100%</h3>
+        <p>Uptime</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <div class="cta-box fade-in">
+      <h2>What are you waiting for?</h2>
+      <p>Add Steal-a-moji and start building your emoji collection in seconds.</p>
+      <div class="hero-buttons">
+        <a href="invite.html" class="btn btn-primary">Invite Steal-a-moji</a>
+        <a href="https://discord.gg/xT4RVAADeU" class="btn btn-secondary" target="_blank" rel="noopener">Support Server</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="container-headerr"><h3>STEAL-A-MOJI</h3></span>
+        <p>A <strong>Dopamine Studios</strong> project.<br>Made in India 🇮🇳</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="privacypolicy.html">Privacy Policy</a></li>
+          <li><a href="tos.html">Terms of Service</a></li>
+          <li><a href="https://discord.gg/xT4RVAADeU" target="_blank" rel="noopener">Support Server</a></li>
+          <li><a href="mailto:hey@dopaminestudios.in">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>More From Us</h4>
+        <ul class="footer-links">
+          <li><a href="https://bot.dopaminestudios.in/" target="_blank" rel="noopener">Dopamine Bot</a></li>
+          <li><a href="https://twilight.dopaminestudios.in/" target="_blank" rel="noopener">Twilight</a></li>
+          <li><a href="https://pokempanion.dopaminestudios.in/" target="_blank" rel="noopener">Pokémpanion</a></li>
+          <li><a href="https://beacon.dopaminestudios.in/" target="_blank" rel="noopener">Beacon</a></li>
+          <li><a href="https://blog.dopaminestudios.in/" target="_blank" rel="noopener">Dopamine Blogs</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dopamine Studios. All rights reserved.</p>
+      <p>Contact: <a href="mailto:hey@dopaminestudios.in" style="color: inherit; text-decoration: none;">hey@dopaminestudios.in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, index * 100);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+<script src="the_robber_emoji_totally_existed.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>

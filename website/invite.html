@@ -1,0 +1,109 @@
+<!-- Production invite URL: https://stealamoji.dopaminestudios.in/invite -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invite Steal-a-moji - Discord Emoji Stealer</title>
+  <link rel="icon" type="image/ico" href="favico.ico">
+  <meta name="description" content="Add Steal-a-moji to your Discord server and steal custom emojis with /steal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#f7c22b">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .invite-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 80px;
+    }
+    .invite-card {
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      padding: 56px 40px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(247, 194, 43, 0.25);
+    }
+    .invite-card img {
+      width: 80px;
+      height: auto;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+    .invite-card h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .invite-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #1a1408;
+      box-shadow: 0 4px 30px rgba(247, 194, 43, 0.35);
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 40px rgba(247, 194, 43, 0.55);
+    }
+    .invite-note {
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .invite-note a {
+      color: var(--accent-primary-light);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+<div class="bg-stars" id="bg-stars"></div>
+<div class="bg-noise"></div>
+
+<main class="invite-page">
+  <div class="invite-card">
+    <img src="stealamoji.png" alt="Stealamoji">
+    <h1>Add Steal-a-moji to Discord</h1>
+    <p>Invite Steal-a-moji to your server, then use <strong>/steal</strong> to add custom emojis from any Discord server.</p>
+    <a href="https://discord.com/oauth2/authorize?client_id=1535642612327907348&permissions=1073741824&scope=bot%20applications.commands" class="btn">Authorise with Discord</a>
+    <p class="invite-note">Questions? Join the <a href="https://discord.gg/xT4RVAADeU" target="_blank" rel="noopener">support server</a>.</p>
+  </div>
+</main>
+
+<script src="the_robber_emoji_totally_existed.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>
