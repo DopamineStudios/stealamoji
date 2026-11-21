@@ -2,7 +2,7 @@ from beacon import BeaconAutoShardedBot
 import discord
 import logging
 from logging.handlers import RotatingFileHandler
-from config import TOKEN, LOGGING_DEBUG_MODE, PROXY_USERNAME, PROXY_PASSWORD
+from config import TOKEN, LOGGING_DEBUG_MODE
 import os
 import traceback
 import asyncio
