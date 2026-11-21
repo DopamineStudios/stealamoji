@@ -12,6 +12,78 @@ from beacon import beacon_commands, preconditions
 class EmojiStealer(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.emoji_index: dict[int, dict] = {}
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.rebuild_index()
+
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild: discord.Guild):
+        self.add_guild_to_index(guild)
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild: discord.Guild):
+        self.remove_guild_from_index(guild.id)
+
+    @commands.Cog.listener()
+    async def on_guild_emojis_update(
+        self,
+        guild: discord.Guild,
+        before: list[discord.Emoji],
+        after: list[discord.Emoji],
+    ):
+        self.remove_guild_from_index(guild.id)
+        self.add_guild_to_index(guild)
+
+    def rebuild_index(self):
+        self.emoji_index.clear()
+        for guild in self.bot.guilds:
+            self.add_guild_to_index(guild)
+
+    def add_guild_to_index(self, guild: discord.Guild):
+        for emoji in guild.emojis:
+            self.emoji_index[emoji.id] = {
+                "id": emoji.id,
+                "name": emoji.name,
+                "animated": emoji.animated,
+                "guild_id": guild.id,
+                "guild_name": guild.name,
+                "string_repr": str(emoji),
+                "search_key": emoji.name.lower(),
+            }
+
+    def remove_guild_from_index(self, guild_id: int):
+        to_remove = [
+            eid
+            for eid, data in self.emoji_index.items()
+            if data["guild_id"] == guild_id
+        ]
+        for eid in to_remove:
+            del self.emoji_index[eid]
+
+    async def emoji_autocomplete(
+        self, interaction: discord.Interaction, current: str
+    ) -> list[app_commands.Choice[str]]:
+        current = current.strip().lower()
+        choices = []
+        for emoji_info in self.emoji_index.values():
+            if (
+                not current
+                or current in emoji_info["search_key"]
+                or current in str(emoji_info["id"])
+            ):
+                display_name = f":{emoji_info['name']}: ({emoji_info['guild_name']})"[
+                    :100
+                ]
+                choices.append(
+                    app_commands.Choice(
+                        name=display_name, value=emoji_info["string_repr"]
+                    )
+                )
+                if len(choices) >= 25:
+                    break
+        return choices
 
     @beacon_commands.command(
         name="steal",
@@ -21,6 +93,7 @@ class EmojiStealer(commands.Cog):
         emoji="Emoji or a raw Emoji ID",
         name="Optional custom name for the stolen emoji",
     )
+    @app_commands.autocomplete(emoji=emoji_autocomplete)
     @preconditions.has_permissions(manage_emojis_and_stickers=True)
     async def steal(
             self,
