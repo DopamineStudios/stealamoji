@@ -34,37 +34,61 @@ class EmojiStealer(commands.Cog):
             partial_emoji = None
             emoji_id = None
             emoji_name = name
+            cleaned_input = emoji.strip()
+            direct_urls = []
+            is_animated = False
 
             try:
                 parsed = discord.PartialEmoji.from_str(emoji)
                 if parsed and parsed.is_custom_emoji():
                     partial_emoji = parsed
                     emoji_id = partial_emoji.id
+                    is_animated = partial_emoji.animated
                     if not emoji_name:
                         emoji_name = partial_emoji.name or f"stealamoji_{emoji_id}"
             except Exception:
                 pass
 
-            if not emoji_id:
-                cleaned_input = emoji.strip()
-                if cleaned_input.isdigit():
-                    emoji_id = int(cleaned_input)
-                    if not emoji_name:
-                        emoji_name = f"stealamoji_{emoji_id}"
-                else:
-                    await interaction.followup.send(
-                        "Invalid input. Please provide either a valid custom emoji or a numerical emoji ID."
-                    )
-                    return
+            if not emoji_id and cleaned_input.isdigit():
+                emoji_id = int(cleaned_input)
+                if not emoji_name:
+                    emoji_name = f"stealamoji_{emoji_id}"
+
+            if not emoji_id and cleaned_input.lower().startswith(("http://", "https://")):
+                direct_urls.append(cleaned_input)
+                match = re.search(r"/emojis/(\d+)\.(png|gif|webp|jpeg)", cleaned_input, re.IGNORECASE)
+                if match:
+                    emoji_id = int(match.group(1))
+                    if match.group(2).lower() == "gif":
+                        is_animated = True
+
+                if not emoji_name:
+                    from urllib.parse import urlparse
+                    import os
+                    path = urlparse(cleaned_input).path
+                    basename = os.path.basename(path)
+                    name_part, _ = os.path.splitext(basename)
+                    if name_part:
+                        emoji_name = name_part
+                    else:
+                        emoji_name = f"stealamoji_{emoji_id if emoji_id else 'media'}"
+
+            if not emoji_id and not direct_urls:
+                await interaction.followup.send(
+                    "Invalid input. Please provide a valid custom emoji, numerical emoji ID, Discord emoji link, or media link."
+                )
+                return
 
             emoji_name = re.sub(r"[^a-zA-Z0-9_]", "", emoji_name)[:32]
             if len(emoji_name) < 2:
-                emoji_name = f"stealamoji_{emoji_id}"
+                emoji_name = f"stealamoji_{emoji_id if emoji_id else 'emoji'}"
 
             urls_to_try = []
-            if partial_emoji:
+            if direct_urls:
+                urls_to_try.extend(direct_urls)
+            elif partial_emoji:
                 urls_to_try.append(str(partial_emoji.url))
-            else:
+            elif emoji_id:
                 urls_to_try = [
                     f"https://cdn.discordapp.com/emojis/{emoji_id}.gif",
                     f"https://cdn.discordapp.com/emojis/{emoji_id}.png",
